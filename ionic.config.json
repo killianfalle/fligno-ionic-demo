@@ -1,0 +1,7 @@
+{
+  "name": "Fligno-Demo",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

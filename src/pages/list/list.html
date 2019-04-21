@@ -1,0 +1,64 @@
+<!--
+  Generated template for the ListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="orange">
+      <div *ngIf="!isSearchbarOpened" class="myProfText" (click)="goToProfile()">
+        <ion-icon class="avatar" name="contact"></ion-icon>
+        Profile
+      </div>
+
+    <!-- <ion-title text-center *ngIf="!isSearchbarOpened">Update</ion-title> -->
+
+      <div *ngIf="!isSearchbarOpened" class="myProfText2">
+        <ion-icon class="avatar2" name="log-out" (click)="logout()"></ion-icon>
+      </div>
+
+      <!-- <ion-searchbar *ngIf="isSearchbarOpened" type="text" [(ngModel)]="term" placeholder="Search" showCancelButton="true" (ionCancel)="isSearchbarOpened=false"></ion-searchbar>
+      <ion-buttons class="searchButton">
+        <button ion-button icon-only *ngIf="!isSearchbarOpened" (click)="isSearchbarOpened=true">
+          <ion-icon name="search"></ion-icon>
+        </button>
+      </ion-buttons> -->
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="cont">
+
+    <ion-item class="postInt">
+      <ion-input [(ngModel)]="term" name="search" type="text" placeholder="Search"></ion-input>
+    </ion-item>
+      <!-- <button class="postButton" full ion-button color="secondary"  (click)="create(postData.post)" item-right>Post</button> -->
+
+    <ion-item class="quoteContainer" *ngFor="let p of post | filter: term; let i = index;">
+      <div (click)="viewPost(p, i)" text-center>
+        <p class="postList">"{{p.post}}"</p>
+        <p text-right class="by">-{{p.postedByName}}</p>
+    
+          <!-- <ion-fab *ngIf="p.postedByEmail == email" top right>
+            <ion-icon class="fabIcon" name="more" (click)="selectOption(p, i)"></ion-icon>
+          </ion-fab> -->
+          <!-- <button *ngIf="p.postedBy == email" ion-button color="secondary"  (click)="edit(p)" item-right>Edit</button>
+          <button *ngIf="p.postedBy == email" ion-button color="secondary"  (click)="delete(p, i)" item-right>Delete</button> -->
+      </div>
+    </ion-item>
+
+    <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll> -->
+
+    <ion-fab bottom right>
+        <button ion-fab color="secondary" (click)="create(postData.post)">
+          <ion-icon class="fabIcon" color="light"></ion-icon>
+        </button>
+    </ion-fab>
+
+    <ion-fab bottom right>
+        <button ion-fab color="orange" (click)="createByFab(postData.post)"><ion-icon class="create" name="add"></ion-icon></button>
+    </ion-fab>
+
+</ion-content>

@@ -1,0 +1,71 @@
+page-list {
+    .fabIcon{
+        font-size: 1.5em!important;
+    }
+
+    .create{
+        color:white!important;
+    }
+
+    .myProfText{
+        float:left;
+        color:white;
+        font-size: 14px;
+        margin-left: 10px;
+    }
+
+    .myProfText2{
+        float:right;
+        color:white;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .avatar{
+        font-size: 25px;
+    }
+
+    .avatar2{
+        font-size: 25px;
+        float: right;
+        margin-right: 10px;
+    }
+
+    .cont{
+        background: #f5f5f5;
+    }
+
+    .postList{
+        margin-top:20px;
+        font-size: 20px;
+    }
+
+    .quoteContainer{
+        background: white!important;
+    }
+
+    .postButton{
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+
+    .postInt{
+        padding: 4px;
+        margin-top: 7px;
+        background: #f5f5f5f5;
+
+        ion-input{
+            margin-left: 20px;
+        }
+    }
+
+    .searchButton{
+        float: right;
+        margin-right: 10px;
+        margin-top: -3px;
+    }
+    
+    .by{
+        margin-top: 20px;
+    }
+}
