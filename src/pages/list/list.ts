@@ -66,8 +66,8 @@ export class ListPage {
         }
      } else {
         this.alertCtrls('Server error');
-     }      
-    });
+     }
+    });      
   }
 
   //VIEW POST

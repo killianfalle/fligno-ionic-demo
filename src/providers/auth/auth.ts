@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { HTTP } from '@ionic-native/http';
 /*
   Generated class for the AuthProvider provider.
 
@@ -10,30 +11,37 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 @Injectable()
 export class AuthProvider {
 
-  apiUrl: string = 'http://192.168.1.7:8000/';
+  apiUrl: string = 'http://816d4d2f.ngrok.io/';
 
   body: object=[];
 
   constructor(public http: Http) {
-    console.log('Hello AuthProvider Provider');
+    // this.http.get('https://jsonplaceholder.typicode.com/todos/1',{},{})
+    // .then( response => {
+    //   console.log(response.data)
+    // })
   }
 
   //LOGIN USER
   login(credentials) {
     return new Promise((resolve, reject) => {
       
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let params = 'email='+credentials.email+'&password='+credentials.password;
-        //headers.append('Content-Type', 'application/json');
+      let headers = new Headers({
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Accept': 'application/x-www-form-urlencoded'
+      });
+      let params = 'email='+credentials.email+'&password='+credentials.password;
+      //headers.append('Content-Type', 'application/json');
 
-        //this.http.post(this.apiUrl+'login', JSON.stringify(credentials), {headers: headers})
-        this.http.post(this.apiUrl+'api/login', params, {headers: headers})
-          .subscribe(res => {
-            resolve(res.json());
-          }, (err) => {
-            reject(err);
-          });
+      //this.http.post(this.apiUrl+'login', JSON.stringify(credentials), {headers: headers})
+      this.http.post(this.apiUrl+'api/login', params, {headers: headers})
+        .subscribe(res => {
+          resolve(res.json());
+        }, (err) => {
+          reject(err);
+        });
     });
   }
 
@@ -80,7 +88,7 @@ export class AuthProvider {
       let headers = new Headers();
       headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-      this.http.delete(this.apiUrl+'api/user/delete/'+id, {headers: headers})
+      this.http.delete(this.apiUrl+'api/user/delete/'+id,{headers: headers})
         .subscribe(res => {
           resolve(res.json());
         }, (err) => {
@@ -95,7 +103,7 @@ export class AuthProvider {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-        this.http.post(this.apiUrl+'api/logout', {}, {headers: headers})
+        this.http.post(this.apiUrl+'api/logout',{headers: headers})
           .subscribe(res => {
             resolve(res.json());
           }, (err) => {
@@ -118,7 +126,7 @@ export class AuthProvider {
   getData(){
     let headers = new Headers();
 
-    return this.http.get(this.apiUrl+'api/data',{headers: headers});
+    return this.http.get(this.apiUrl+'api/data', {headers: headers});
     }
 
   //CREATE
@@ -164,7 +172,7 @@ export class AuthProvider {
       let headers = new Headers();
       headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-      this.http.delete(this.apiUrl+'api/data/delete/'+item, {headers: headers})
+      this.http.delete(this.apiUrl+'api/data/delete/'+item,{headers: headers})
         .subscribe(res => {
           resolve(res.json());
         }, (err) => {
