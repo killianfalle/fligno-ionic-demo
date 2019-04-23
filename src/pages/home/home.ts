@@ -20,13 +20,6 @@ export class HomePage {
     console.log('Guest');
   }
 
-  facebook(){
-  }
-
-  gmail(){
-    console.log('Gmail login');
-  }
-
   login(){
     this.navCtrl.push(LoginPage)
   }

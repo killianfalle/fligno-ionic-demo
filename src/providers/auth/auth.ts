@@ -11,8 +11,8 @@ import { HTTP } from '@ionic-native/http';
 @Injectable()
 export class AuthProvider {
 
-  apiUrl: string = 'http://816d4d2f.ngrok.io/';
-
+  apiUrl: string = 'http://f34ea005.ngrok.io/';
+  base64img:string='';
   body: object=[];
 
   constructor(public http: Http) {
@@ -62,39 +62,23 @@ export class AuthProvider {
     });
   }
 
- //UPDATE
-  updateUser(credentials):any {
-    console.log(credentials.id)
-    console.log(credentials)
-    return new Promise((resolve, reject) => {
-      
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/x-www-form-urlencoded');
-      let params = 'name='+credentials.name+'&email='+credentials.email
-                    +'&age='+credentials.age+'&address='+credentials.address
-
-      this.http.put(this.apiUrl+'api/user/update/'+credentials.id, params, {headers: headers})
-        .subscribe(res => {
-          resolve(res.json());
-        }, (err) => {
-          reject(err);
-        });
+  uploadImage(urlImage){
+    let headers = new Headers();
+    headers.append('file', urlImage);
+    
+    this.http.post(this.apiUrl+'api/login/avatar', {headers: headers})
+    .subscribe(res => {
+      console.log(res)
+    }, (err) => {
+      console.log(err)
     });
   }
 
-  //DELETE
-  deleteUser(id):any {
-    return new Promise((resolve, reject) => {
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-      this.http.delete(this.apiUrl+'api/user/delete/'+id,{headers: headers})
-        .subscribe(res => {
-          resolve(res.json());
-        }, (err) => {
-          reject(err);
-        });
-    });
+  setImage(img){
+    this.base64img=img;
+  }
+  getImage(){
+    return this.base64img;
   }
 
   //LOGOUT USER
@@ -119,66 +103,5 @@ export class AuthProvider {
     
     return this.http.get(this.apiUrl+'api/user',{headers: headers});
   }  
-
-
-  //-----------------CRUD------------------------
-  //GET
-  getData(){
-    let headers = new Headers();
-
-    return this.http.get(this.apiUrl+'api/data', {headers: headers});
-    }
-
-  //CREATE
-  postCreate(myPost):any {
-
-    return new Promise((resolve, reject) => {
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/x-www-form-urlencoded');
-      let params = 'postedByEmail='+myPost.postedByEmail+'&post='+myPost.post+'&postedByName='+myPost.postedByName
-
-      this.http.post(this.apiUrl+'api/data/create', params, {headers: headers})
-        .subscribe(res => {
-          resolve(res.json());
-        }, (err) => {
-          reject(err);
-        });
-  });
-  }
-
-  //UPDATE
-  updatePost(newPost, id):any {
-    console.log(newPost)
-    console.log(id)
-    return new Promise((resolve, reject) => {
-      
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/x-www-form-urlencoded');
-      let params = 'post='+newPost
-
-
-      this.http.put(this.apiUrl+'api/data/update/'+id, params, {headers: headers})
-        .subscribe(res => {
-          resolve(res.json());
-        }, (err) => {
-          reject(err);
-        });
-    });
-  }
-
-  //DELETE
-  deletePost(item):any {
-    return new Promise((resolve, reject) => {
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-      this.http.delete(this.apiUrl+'api/data/delete/'+item,{headers: headers})
-        .subscribe(res => {
-          resolve(res.json());
-        }, (err) => {
-          reject(err);
-        });
-    });
-  }
 
 }

@@ -18,7 +18,7 @@ import { LoginPage } from '../login/login';
 })
 export class RegisterPage {
 
-  regData = { name:'', email:'', password:'', address:'', age:''};
+  regData = { name:'', email:'', password:'', address:'', age:'', confirmPassword:''};
   data: any;
 
   constructor(public navCtrl: NavController, 
@@ -36,23 +36,36 @@ export class RegisterPage {
     if(this.regData.email == ''||this.regData.name == ''||this.regData.password == ''||this.regData.address == ''||this.regData.age == ''){
       const alert = this.alertCtrl.create({
         title: 'Ooops!',
-        message: 'Please fill in everything.',
+        message: 'Please fill in everything that is provided.',
         buttons: ['Ok']
       });
       alert.present();
+      return false;
     }else{
-      this.authService.register(this.regData).then((result) => {
-        this.data = result;
-        if (this.data.status=='ok'){
-          this.navCtrl.push(LoginPage);
-          this.alertCtrls('Register successful');  
-        } else {
-          this.alertCtrls(this.data.message);  
-        }
-        
-      }, (err) => {
-        this.alertCtrls(err);
-      });
+      //PASSWORD CONFIRMATION
+      if(this.regData.confirmPassword != this.regData.password){
+        const alert = this.alertCtrl.create({
+          title: 'Ooops!',
+          message: 'Passwords must match.',
+          buttons: ['Ok']
+        });
+        alert.present();
+        return false;
+      }else{
+        this.authService.register(this.regData).then((result) => {
+          this.data = result;
+          if (this.data.status=='ok'){
+            this.navCtrl.push(LoginPage);
+            this.alertCtrls('Register successful');  
+          } else {
+            this.alertCtrls(this.data.message);  
+          }
+          
+        }, (err) => {
+          this.alertCtrls(err);
+        });
+      }
+
     }
   }
 

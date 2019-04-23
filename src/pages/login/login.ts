@@ -30,25 +30,31 @@ export class LoginPage {
   }
 
   myLogIn(){
-    this.authService.login(this.loginData).then((result) => {
-      this.data = result;
-      if (this.data.status=='ok'){
-        localStorage.setItem('token', this.data.token);
 
-        const alert = this.toastCtrl.create({
-          message: 'Logged in as ' + this.loginData.email,
-          duration: 1500
-        });
-
-        alert.present();
-        console.log(this.data);
-        this.navCtrl.setRoot(ListPage);
-      } else {
-        this.alertCtrls(this.data.message);  
-      }
-    }, (err) => {
-      this.alertCtrls(err);
-    });
+    if(this.loginData.email == '' || this.loginData.password == ''){
+      this.alertCtrls('Please fill in that is provided.');  
+      return false;
+    }else{
+      this.authService.login(this.loginData).then((result) => {
+        this.data = result;
+        if (this.data.status=='ok'){
+          localStorage.setItem('token', this.data.token);
+  
+          const alert = this.toastCtrl.create({
+            message: 'Logged in as ' + this.loginData.email,
+            duration: 1500
+          });
+  
+          alert.present();
+          console.log(this.data);
+          this.navCtrl.setRoot(ListPage);
+        } else {
+          this.alertCtrls(this.data.message);  
+        }
+      }, (err) => {
+        this.alertCtrls(err);
+      });
+    }
   }
 
   register() {

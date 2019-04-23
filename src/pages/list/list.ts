@@ -4,6 +4,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { HomePage } from '../home/home';
 import { ProfilePage } from '../profile/profile';
 import { Observable } from 'rxjs';
+import { CrudProvider } from '../../providers/crud/crud';
 
 @IonicPage()
 @Component({
@@ -32,6 +33,7 @@ export class ListPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public authService: AuthProvider,
+              public crudService: CrudProvider,
               private toastCtrl: ToastController,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController) {
@@ -54,10 +56,11 @@ export class ListPage {
       content: 'Please Wait...'
     });
       loading.present();
-    this.authService.getData()
+    this.crudService.getData()
     .subscribe( result => {
       if (result.json()){
         this.post = result.json();
+        console.log(this.post);
         
         if(this.post != null){
           loading.dismiss();    
@@ -109,7 +112,7 @@ export class ListPage {
                   {
                     text: 'Post',
                     handler: (inputPost) => {
-                      this.authService.updatePost(inputPost.postInp, post.id);
+                      this.crudService.updatePost(inputPost.postInp, post.id);
                       post.post=inputPost.postInp;
 
                       const toast = this.toastCtrl.create({
@@ -145,9 +148,63 @@ export class ListPage {
     }
   }
 
+  viewP(post){
+    let alert = this.alertCtrl.create({
+      message: '"'+post.post+'"',
+      buttons: [
+        {
+          text: 'Done',
+          handler: () => {
+            console.log('done');
+          }
+        },
+      ]
+    });
+    alert.present();
+  }
+
+  editP(post, index){
+    let alert = this.alertCtrl.create({
+      title: "What's on your mind?",
+      inputs: [
+        {
+          name: 'postInp',
+          placeholder: post.post
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            const toast = this.toastCtrl.create({
+              message: 'Cancelled!',
+              duration: 3000
+              });
+            toast.present();
+          }
+        },
+        {
+          text: 'Update',
+          handler: (inputPost) => {
+            this.crudService.updatePost(inputPost.postInp, post.id);
+            post.post=inputPost.postInp;
+
+            const toast = this.toastCtrl.create({
+              message: 'Successfully updated post',
+              duration: 3000
+              });
+            toast.present();
+          }
+        },
+      ]
+    });
+    alert.present();
+  }
+
   create(post){
     let i = {'post': post , 'postedByEmail': this.email, 'postedByName': this.name};
-    this.authService.postCreate(i).then((result) => {
+    this.crudService.postCreate(i).then((result) => {
     this.data = result;
 
       if (this.data.postedByEmail == this.email){
@@ -188,7 +245,7 @@ export class ListPage {
             text: 'Yes',
               handler: () => {
                 this.post.splice(index, 1)
-                let result = this.authService.deletePost(post.id);
+                let result = this.crudService.deletePost(post.id);
                 console.log(result);
 
                 const toast = this.toastCtrl.create({
@@ -292,7 +349,7 @@ export class ListPage {
                 {
                   text: 'Update',
                   handler: (inputPost) => {
-                    this.authService.updatePost(inputPost.postInp, post.id);
+                    this.crudService.updatePost(inputPost.postInp, post.id);
                     //To update directly to the list
                     post.post=inputPost.postInp;
 

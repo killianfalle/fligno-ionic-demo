@@ -13,6 +13,7 @@ page-list {
         font-size: 14px;
         margin-left: 10px;
     }
+    
 
     .myProfText2{
         float:right;
@@ -21,8 +22,24 @@ page-list {
         margin-right: 10px;
     }
 
+    .createFabButton{
+        width: 60px!important;
+        height: 60px!important;
+    }
+
     .avatar{
         font-size: 25px;
+    }
+
+    .fabIc{
+        font-size: 1.5em!important;
+    }
+
+    .fabLi{
+        margin: 0 6px!important;
+        width: 30px;
+        height: 30px;
+        margin-top: -10px;
     }
 
     .avatar2{

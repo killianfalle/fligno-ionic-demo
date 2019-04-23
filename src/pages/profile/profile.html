@@ -11,7 +11,13 @@
 </ion-header>
 
 <ion-content padding>
-  
+  <!-- <ion-item>
+    <img [src]=base64img class="square" *ngIf="base64img!=''">
+    <button ion-button full (click)="openCamera()">OPEN CAMERA</button>
+    <button ion-button full (click)="openGallery()">OPEN GALLERY</button>
+    <button ion-button full (click)="upload()">UPLOAD</button>
+    <button ion-button full (click)="clear()">CLEAR</button>
+  </ion-item> -->
   <div>
     <p>Name: {{data.name}}</p>
     <p>Email: {{data.email}}</p>

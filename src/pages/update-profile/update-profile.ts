@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController, ViewController } from 'ionic-angular';
+import { CrudProvider } from '../../providers/crud/crud';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { AuthProvider } from '../../providers/auth/auth';
 
 /**
@@ -17,12 +19,15 @@ import { AuthProvider } from '../../providers/auth/auth';
 export class UpdateProfilePage {
 
   data:any;
+  base64Image:string;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public authService: AuthProvider,
+              public crudService: CrudProvider,
               private toastCtrl: ToastController,
               public view: ViewController,
+              private camera: Camera,
+              public authService: AuthProvider,
               public alertCtrl: AlertController) {
     this.data = navParams.get('data');
   }
@@ -31,8 +36,43 @@ export class UpdateProfilePage {
     console.log('ID: ' , this.data.id)
   }
 
+  openCamera(){
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    
+    this.camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):
+     this.base64Image = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+     // Handle error
+    });
+  }
+
+  openGallery(){
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    }
+    
+    this.camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):
+    this.base64Image = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+     // Handle error
+    });
+  }
+
   submitUpdate(data){
-    this.authService.updateUser(data);
+    this.crudService.updateUser(data);
     this.view.dismiss();
 
     const toast = this.toastCtrl.create({

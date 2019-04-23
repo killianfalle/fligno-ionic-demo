@@ -18,6 +18,9 @@ import { ProfilePage } from '../pages/profile/profile';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { UpdateProfilePage } from '../pages/update-profile/update-profile';
 import { HTTP } from '@ionic-native/http';
+import { Camera } from '@ionic-native/camera';
+import { File } from '@ionic-native/file';
+import { FileTransfer } from '@ionic-native/file-transfer';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,9 @@ import { HTTP } from '@ionic-native/http';
   providers: [
     StatusBar,
     SplashScreen,
+    Camera,
+    FileTransfer,
+    File,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     CrudProvider,
